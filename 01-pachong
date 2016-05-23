@@ -17,7 +17,7 @@ import urllib
 import urllib2
 
 
-#参考http://cuiqingcai.com/947.html中的代码，但是后期
+#参考http://cuiqingcai.com/947.html中的代码，但是网站在该代码发布N久时间以后结果调整，登录的时候要带上lt、execution两个参数
 values = {}
 values['username'] = "帐号"
 values['password'] = "密码"
