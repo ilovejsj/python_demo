@@ -10,6 +10,8 @@ print linkopen.read()
 
 '''
 
+
+这里是模拟登录CSDN，其中的代码全部是以【python 模拟登录 CSDN】【python CSDN 登录】等搜索而来，可能百度搜不到准确的答案。
 '''
 构造Requset
 
@@ -29,6 +31,11 @@ url = "http://passport.csdn.net/account/login?from=http://my.csdn.net/my/mycsdn"
 request = urllib2.Request(url,data)
 response = urllib2.urlopen(request)
 print response.read()
+'''
+
+
+'''
+也是搜的，当时只是直接想着拿来用，没想过为什么这些代码能实现。
 '''
 
 import requests
