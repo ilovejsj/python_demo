@@ -19,7 +19,8 @@ import urllib
 import urllib2
 
 
-#参考http://cuiqingcai.com/947.html中的代码，但是网站在该代码发布N久时间以后结果调整，登录的时候要带上lt、execution两个参数
+#参考http://cuiqingcai.com/947.html中的代码，但是网站在该代码发布N久时间以后结果调整，登录的时候要带上lt、execution两个参数，
+#至于怎么找到lt、execution，就登录页面源码中找。或者百度一下【CSDN lt】或者【CSDN execution】看下别人是怎么说的。
 values = {}
 values['username'] = "帐号"
 values['password'] = "密码"
