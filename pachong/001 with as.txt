@@ -1,0 +1,38 @@
+先说明一个常见问题，文件打开：
+try:
+    f = open('xxx')
+    do something
+except:
+    do something
+finally:
+    f.close()
+其实我个人不止一次在网上看到有这么写的了，这个是错的。
+首先正确的如下：
+
+try:
+    f = open('xxx')
+except:
+    print 'fail to open'
+    exit(-1)
+try:
+    do something
+except:
+    do something
+finally:
+    f.close()
+    
+如果不用with语句，代码如下：
+
+file = open("/tmp/foo.txt")
+data = file.read()
+file.close()
+
+这里有两个问题。一是可能忘记关闭文件句柄；二是文件读取数据发生异常，没有进行任何处理。下面是处理异常的加强版本：
+
+file = open("/tmp/foo.txt")
+try:
+    data = file.read()
+finally:
+    file.close()
+   
+对于finally的解释：区别就在于,有finally关键字的时候,Python遇到错误在向你甩出错误之前还会留一口气先执行完finally里面的语句。try块里的代码不管有没异常 finally块的语句都会执行 
