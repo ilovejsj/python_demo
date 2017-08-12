@@ -1,3 +1,7 @@
+#2017-08-12新加了一个登录的时候，添加User-Agent信息的代码。
+最新代码为最后一个
+
+
 # -*- coding: utf-8 -*-
 #python2.7
 '''
@@ -6,7 +10,6 @@ import urllib2
 
 linkopen = urllib2.urlopen("http://www.baidu.com")
 print linkopen.read()
-2017-08-12新加了一个登录的时候，添加User-Agent信息的代码。
 
 '''
 
