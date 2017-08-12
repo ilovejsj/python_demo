@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-
+#python2.7
 '''
 最简单的爬虫代码 不用构造任何东西
 import urllib2
 
 linkopen = urllib2.urlopen("http://www.baidu.com")
 print linkopen.read()
-
+2017-08-12新加了一个登录的时候，添加User-Agent信息的代码。
 
 '''
 
@@ -38,7 +38,7 @@ print response.read()
 '''
 也是搜的，当时只是直接想着拿来用，没想过为什么这些代码能实现。
 '''
-
+#python 2.7
 import requests
 from bs4 import BeautifulSoup
  
@@ -65,3 +65,37 @@ r = sess.post(url, data)  使用post的方法
  
 msg = BeautifulSoup(sess.get('http://msg.csdn.net/').text)
 print msg
+
+'''
+2017-08-12新添加
+'''
+#python3.4
+
+import requests
+from bs4 import BeautifulSoup
+ 
+url = 'http://passport.csdn.net/account/login?from=http://my.csdn.net/my/mycsdn'
+ 
+sess = requests.session()#群里问了一下说是【保存持久会话】
+ 
+html1 = sess.get(url).text #效果等同于urlopen(xxx).read(),返回上面url里的内容
+ 
+soup1 = BeautifulSoup(html1)#用bs4方法，没了解过，就理解成构建页面。
+ 
+p1 = soup1.select("[name=lt]")[0]["value"] #这里找lt的值
+p2 = soup1.select("[name=execution]")[0]["value"] #这里找execution的值
+ 
+data = {
+        "lt": p1,
+        "execution": p2,
+        "_eventId": "submit",
+        "username": "帐号",
+        "password": "密码"
+        }
+ 
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36'}  
+
+r = sess.post(url, data,headers) 
+msg = BeautifulSoup(sess.get('http://msg.csdn.net/').text)
+#print (msg.headers) #查看头部信息
+print (msg)
