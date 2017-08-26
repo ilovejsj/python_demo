@@ -1,0 +1,81 @@
+# -*- coding: utf-8 -*-
+
+'''
+首先在脚本相同的目录下建立一个名字为url的txt文件，编码为utf-8
+这个txt编码可以用编辑器更改，比较推荐的是用notepad++
+更改细节：
+就是在try中加了一些转换页面编码的代码
+下面写txt中的line,加了d和k
+如果想要在ide中显示爬虫信息
+那就在return t,k,d上面加入print 就好
+
+更改前先跑一下代码，ied默认会跑到print
+是因为2和3明显的区别就是print 后面有没有括号
+'''
+
+
+from bs4 import BeautifulSoup
+import requests
+import threading
+import queue
+import time
+
+
+
+with open('url.txt') as f:
+    l = f.readlines()
+
+
+def btdk(url):
+    try:
+        html = requests.get(url,timeout = 10)
+        html.raise_for_status()
+        html.encoding = html.apparent_encoding#这个是改页面编码
+        soup = BeautifulSoup(html.text,"html.parser")
+    except:
+        html = '<html><title>%s</title><meta name="keywords" content="" /><meta name="description" content="" /></html>'%url
+    t = soup.title.text
+    try:
+        k = soup.find(attrs={"name":"Keywords"})['content']
+    except:
+        k = ""
+    try:
+        d = soup.find(attrs={"name":"description"})['content']
+    except:
+        d = ""
+
+    return t,k,d
+
+
+class MyThread(threading.Thread):
+
+    def __init__(self, queue, url):
+        threading.Thread.__init__(self)
+        self.queue = queue
+        self.url = url
+
+    def run(self):
+        while True:
+            url = self.queue.get()
+            t,k,d = btdk(url)
+            with open('tdk.txt', 'a+') as s:
+                line = url+'#'+ "title:" +t+'#'+'\n'+ "keywords:" +k +'\n'+ "description:"+d +'\n'+'\n'
+                s.writelines(line)
+            self.queue.task_done()
+
+
+def test(l, ts=4):
+    ll = [i.rstrip() for i in l]
+    for j in range(ts):
+        t = MyThread(queue,ll)
+        t.setDaemon(True)
+        t.start()
+    for url in ll:
+        queue.put(url)
+    queue.join()
+if __name__ == '__main__':
+    queue = queue.Queue()
+    start = time.time()
+    test(l,4)
+    end = time.time()
+    print ('共耗时:%s秒' % (end - start))
